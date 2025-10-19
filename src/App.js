@@ -11,7 +11,6 @@ function App() {
     return saved ? JSON.parse(saved) : [];
   });
   const [filter, setFilter] = useState("All");
-
   const [darkMode, setDarkMode] = useState(() => {
     const savedTheme = localStorage.getItem("theme");
     return savedTheme === "dark";
@@ -19,11 +18,8 @@ function App() {
 
   useEffect(() => {
     const root = document.documentElement;
-    if (darkMode) {
-      root.classList.add("dark");
-    } else {
-      root.classList.remove("dark");
-    }
+    if (darkMode) root.classList.add("dark");
+    else root.classList.remove("dark");
     localStorage.setItem("theme", darkMode ? "dark" : "light");
   }, [darkMode]);
 
@@ -32,24 +28,23 @@ function App() {
   }, [tasks]);
 
   const addTask = (taskDesc) => {
-    console.log("Adding task", taskDesc);
-    if (!taskDesc.trim()) {
-      return;
-    }
-    const newtask = { id: Date.now(), text: taskDesc, completed: false };
-    setTasks((prevtask) => [...prevtask, newtask]);
+    if (!taskDesc.trim()) return;
+    const newTask = { id: Date.now(), text: taskDesc, completed: false };
+    setTasks((prev) => [...prev, newTask]);
   };
 
   const toggleTask = (id) => {
     setTasks(
-      tasks.map((item) =>
-        item.id === id ? { ...item, completed: !item.completed } : item
-      )
+      tasks.map((t) => (t.id === id ? { ...t, completed: !t.completed } : t))
     );
   };
 
   const deleteTask = (id) => {
-    setTasks(tasks.filter((item) => item.id !== id));
+    setTasks(tasks.filter((t) => t.id !== id));
+  };
+
+  const clearCompleted = () => {
+    setTasks(tasks.filter((t) => !t.completed));
   };
 
   const filteredTasks =
@@ -64,23 +59,27 @@ function App() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 dark:bg-gray-900 transition-all p-4">
       <Layout>
-        <div className="flex justify-end mb-4">
+        <div className="flex justify-between mb-4 items-center">
           <button
             onClick={() => setDarkMode(!darkMode)}
-            className="fixed top-4 right-4 px-4 py-2 bg-indigo-500 text-white rounded shadow-md hover:bg-indigo-600 transition-colors duration-200"
+            className="px-4 py-2 bg-indigo-500 text-white rounded shadow hover:bg-indigo-600 transition"
           >
             {darkMode ? "Light Mode" : "Dark Mode"}
+          </button>
+          <button
+            onClick={clearCompleted}
+            className="px-4 py-2 bg-red-500 text-white rounded shadow hover:bg-red-600 transition"
+          >
+            Clear Completed
           </button>
         </div>
 
         <TaskForm addTask={addTask} />
-
         <FilterBar
           filter={filter}
           setFilter={setFilter}
           remaining={remaining}
         />
-
         <TaskList
           tasks={filteredTasks}
           onDelete={deleteTask}

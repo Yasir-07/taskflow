@@ -11,9 +11,9 @@ const TaskItem = ({ task, onDelete, onToggle }) => {
       transition={{ duration: 0.2 }}
       className={`flex justify-between items-center px-4 py-3 mb-3 rounded-lg border ${
         task.completed
-          ? "bg-green-50 border-green-200 text-gray-400 dark:text-gray-500"
-          : "bg-white border-gray-200 dark:bg-gray-700 dark:border-gray-600 hover:shadow-md transition-all duration-200"
-      }`}
+          ? "bg-green-50 border-green-200 dark:bg-green-900 dark:border-green-700 text-gray-400"
+          : "bg-white border-gray-200 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200 hover:shadow-md"
+      } transition-all duration-200`}
     >
       <div
         onClick={() => onToggle(task.id)}
@@ -28,7 +28,7 @@ const TaskItem = ({ task, onDelete, onToggle }) => {
         <span
           className={`text-base font-medium ${
             task.completed
-              ? "line-through text-gray-400 dark:text-gray-500"
+              ? "line-through text-gray-400"
               : "text-gray-800 dark:text-gray-200"
           }`}
         >
@@ -38,7 +38,7 @@ const TaskItem = ({ task, onDelete, onToggle }) => {
 
       <button
         onClick={() => onDelete(task.id)}
-        className="text-red-500 hover:text-red-600 dark:hover:text-red-400 font-bold text-lg transition-all duration-200"
+        className="text-red-500 hover:text-red-600 font-bold text-lg transition-all duration-200"
       >
         ✕
       </button>
