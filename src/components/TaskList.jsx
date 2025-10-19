@@ -1,5 +1,6 @@
 import React from "react";
 import TaskItem from "./TaskItem";
+import { AnimatePresence } from "framer-motion";
 
 const TaskList = ({ tasks, onDelete, onToggle }) => {
   if (!tasks || tasks.length === 0) {
@@ -13,14 +14,16 @@ const TaskList = ({ tasks, onDelete, onToggle }) => {
   return (
     <div className="mt-6 w-full max-w-md mx-auto">
       <ul className="space-y-2">
-        {tasks.map((task) => (
-          <TaskItem
-            key={task.id}
-            task={task}
-            onDelete={onDelete}
-            onToggle={onToggle}
-          />
-        ))}
+        <AnimatePresence>
+          {tasks.map((task) => (
+            <TaskItem
+              key={task.id}
+              task={task}
+              onDelete={onDelete}
+              onToggle={onToggle}
+            />
+          ))}
+        </AnimatePresence>
       </ul>
     </div>
   );
